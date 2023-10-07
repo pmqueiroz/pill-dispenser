@@ -1,11 +1,4 @@
-void setup()
-{
-  Serial.begin(9600);
-  pinMode(2, OUTPUT);
-}
-
-void loop()
-{
+void playAlarm() {
   static unsigned long previousMillis = 0;
   static int toneValue = 200;
   static int toneDuration = 200;
@@ -15,8 +8,6 @@ void loop()
   tone(2, toneValue);
   if (currentMillis - previousMillis >= toneDuration) {
     previousMillis = currentMillis;
-    
-   
 
     toneValue += 200;
     if (toneValue > 1000) {
