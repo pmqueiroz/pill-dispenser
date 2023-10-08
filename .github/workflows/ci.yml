@@ -1,0 +1,14 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, 'feat/**']
+
+jobs:
+  compile-sketch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: arduino/compile-sketches@v1
+        with:
+          fqbn: "arduino:avr:nano"
