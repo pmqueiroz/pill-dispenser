@@ -1,6 +1,6 @@
-#include "alarm.h"
-#include "cover.h"
-#include "indicator.h"
+#include "./includes/alarm.h"
+#include "./includes/cover.h"
+#include "./includes/indicator.h"
 
 #define BUZZER__PIN 2
 #define COVER_BUTTON__PIN 3

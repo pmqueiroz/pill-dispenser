@@ -1,4 +1,4 @@
-#include "alarm.h"
+#include "./includes/alarm.h"
 #include <Arduino.h>
 
 Alarm::Alarm(int pin) : isAlarmActive(false), buzzerPin(pin) {

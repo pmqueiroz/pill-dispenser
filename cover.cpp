@@ -1,4 +1,4 @@
-#include "cover.h"
+#include "./includes/cover.h"
 #include <Arduino.h>
 
 Cover::Cover(int pin) : buttonPin(pin), buttonState(LOW), lastButtonState(LOW) {

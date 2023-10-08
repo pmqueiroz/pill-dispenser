@@ -1,4 +1,4 @@
-#include "indicator.h"
+#include "./includes/indicator.h"
 #include <Arduino.h>
 
 Indicator::Indicator(int *pinsIds, int count) : ledPins(pinsIds), ledLineCount(count) {
