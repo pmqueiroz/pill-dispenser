@@ -10,9 +10,9 @@ void Cover::checkState() {
 
     if(buttonState != lastButtonState) {
         if (buttonState == HIGH) {
-        coverOpenCallback();
+            coverOpenCallback();
         } else {
-        coverClosedCallback();
+            coverClosedCallback();
         }
     }
 
