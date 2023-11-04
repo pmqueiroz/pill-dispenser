@@ -2,19 +2,16 @@
 #define HttpClient_h
 
 #include <Arduino.h>
+#include "./time.h"
 
 class HttpClient {
 private:
-  int espRxPin;
-  int espTxPin;
+  void (*onRequest)(char *request);
   void httpResponse(int code);
   char* readRequest();
-  void processRequest(char *request);
-  void sendResponse();
-  void body();
-  void head();
+  // void processRequest(char *request);
 public:
-  HttpClient(int rx_pin, int tx_pin);
+  HttpClient(void (*onRequest)(char *request));
   void watch();
 };
 
