@@ -1,17 +1,19 @@
 #include "./includes/http-client.h"
-#include "./includes/helpers.h"
+#include "./includes/html.h"
+#include "./includes/time.h"
 #include <Arduino.h>
 
-HttpClient::HttpClient(int rx_pin, int tx_pin): espRxPin(rx_pin), espTxPin(tx_pin) {}
+HttpClient::HttpClient(void (*callback)(char *request)): onRequest(callback) {}
 
 void HttpClient::watch() {
   if (Serial.available()) { 
     char* request = readRequest();
 
     if(strstr(request, "favicon") == NULL) {
-      processRequest(request);
+      onRequest(request);
 
-      sendResponse();
+      httpResponse(200);
+      Html::write();
     } else {
       httpResponse(404);
     }
@@ -71,44 +73,11 @@ char* HttpClient::readRequest() {
   return request;
 }
 
-void HttpClient::processRequest(char *request) {
-   String action = getStringBetween(request, '?', '=');
-   String value = getStringBetween(request, '=', ' ');
+// void HttpClient::processRequest(char *request) {
+//   String action = getStringBetween(request, '?', '=');
+//   String value = getStringBetween(request, '=', ' ');
 
-  // if(action == "on" || action == "off") {
-
-  // }
-}
-
-void HttpClient::sendResponse() {
-   httpResponse(200);
-
-   Serial.println("<!DOCTYPE HTML>");
-   Serial.println("<html>");
-   head();
-   body();
-   Serial.println("</html>");
-}
-
-void HttpClient::head() {
-  Serial.println(F("<head>"
-    "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-    "<style>"
-        "* {"
-            "box-sizing: border-box;"
-            "margin: 0;"
-            "padding: 0;"
-        "}"
-    "</style>"
-  "</head>"));
-}
-
-void HttpClient::body() {
-    Serial.println("<body>");
-    // String buttons = "";
-    // for(int i=0; i<PINS_COUNT; i++) {
-    //     buttons.concat(button(i));
-    // }
-    // Serial.println(buttons);
-    Serial.println("</body>");
-}
+//   if (action == "set-alarm") {
+//     Time alarmTime = parseTimeString(action);
+//   }
+// }
