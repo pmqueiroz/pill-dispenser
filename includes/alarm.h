@@ -16,7 +16,6 @@ public:
   void activateAlarm();
   void deactivateAlarm();
   bool isAlarmActivated() const;
-  void powerOffAlarm();
 };
 
 #endif

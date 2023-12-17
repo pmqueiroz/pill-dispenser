@@ -26,7 +26,3 @@ void Alarm::deactivateAlarm() {
 bool Alarm::isAlarmActivated() const {
   return isAlarmActive;
 }
-
-void Alarm::powerOffAlarm() {
-  noTone(buzzerPin);
-}

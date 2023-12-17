@@ -12,7 +12,7 @@ private:
   // void processRequest(char *request);
 public:
   HttpClient(void (*onRequest)(char *request));
-  void watch();
+  void listen();
 };
 
 #endif
