@@ -5,7 +5,7 @@
 
 HttpClient::HttpClient(void (*callback)(char *request)): onRequest(callback) {}
 
-void HttpClient::watch() {
+void HttpClient::listen() {
   if (Serial.available()) { 
     char* request = readRequest();
 
@@ -72,12 +72,3 @@ char* HttpClient::readRequest() {
 
   return request;
 }
-
-// void HttpClient::processRequest(char *request) {
-//   String action = getStringBetween(request, '?', '=');
-//   String value = getStringBetween(request, '=', ' ');
-
-//   if (action == "set-alarm") {
-//     Time alarmTime = parseTimeString(action);
-//   }
-// }
