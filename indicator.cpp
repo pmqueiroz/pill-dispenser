@@ -1,17 +1,18 @@
 #include "./includes/indicator.h"
 #include <Arduino.h>
 
-Indicator::Indicator(int *pinsIds, int count) : ledPins(pinsIds), ledLineCount(count) {
-    for (int i = 0; i < ledLineCount; i++) {
-        pinMode(ledPins[i], OUTPUT);
-        analogWrite(ledPins[i], 0);
-    }
+Indicator::Indicator(int shiftRegLatchPin, int shiftRegDataPin, int shiftRegClockPin, int shiftRegAmount) {
+  shiftRegister = new ShiftOutMega(shiftRegLatchPin, shiftRegDataPin, shiftRegClockPin, shiftRegAmount);
 }
 
 void Indicator::turnLineOn(int id) {
-    analogWrite(ledPins[id], 255);
+  shiftRegister->shiftWrite(id, HIGH);
 }
 
 void Indicator::turnLineOff(int id) {
-    analogWrite(ledPins[id], 0);
+  shiftRegister->shiftWrite(id, LOW);
+}
+
+Indicator::~Indicator() {
+  delete shiftRegister;
 }

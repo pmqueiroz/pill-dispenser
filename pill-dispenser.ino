@@ -13,13 +13,15 @@
 #define RTC_CLK__PIN 10
 #define RTC_DAT__PIN 11
 #define RTC_RST__PIN 12
-int INDICATOR_LEDS__MAP[LED_LINE__COUNT] = {A1, A2, A3, A4};
+#define SHIFT_REG_LATCH__PIN 6
+#define SHIFT_REG_DATA__PIN 7
+#define SHIFT_REG_CLOCK__PIN 5
+#define SHIFT_REG__AMOUNT 1
 
 Alarm alarm(BUZZER__PIN);
 Cover cover(COVER_BUTTON__PIN);
-Indicator indicator(INDICATOR_LEDS__MAP, LED_LINE__COUNT);
+Indicator indicator(SHIFT_REG_LATCH__PIN, SHIFT_REG_DATA__PIN, SHIFT_REG_CLOCK__PIN, SHIFT_REG__AMOUNT);
 HttpClient httpClient([](char *request) {
-  
   // String action = getStringBetween(request, '?', '=');
   // String value = getStringBetween(request, '=', ' ');
 
