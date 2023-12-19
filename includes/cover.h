@@ -6,16 +6,16 @@
 class Cover {
 private:
   const int buttonPin;
-  int buttonState;
-  int lastButtonState;
+  int coverState;
+  int lastCoverState;
   void (*coverOpenCallback)(void);
   void (*coverClosedCallback)(void);
 public:
   Cover(int pin);
   void checkState();
+  bool isCoverOpened();
   void onCoverOpen(void (*callback)(void));
-  void onCoverClosed(void (*callback)(void));
+  void onCoverClose(void (*callback)(void));
 };
 
 #endif
-

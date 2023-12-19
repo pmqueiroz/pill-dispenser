@@ -8,7 +8,6 @@
 
 #define BUZZER__PIN 2
 #define COVER_BUTTON__PIN 3
-#define DEBUG_LED__PIN 4
 #define LED_LINE__COUNT 4
 #define RTC_CLK__PIN 10
 #define RTC_DAT__PIN 11
@@ -17,6 +16,8 @@
 #define SHIFT_REG_DATA__PIN 7
 #define SHIFT_REG_CLOCK__PIN 5
 #define SHIFT_REG__AMOUNT 1
+
+#define TEN_SECONDS 10 * 1000
 
 Alarm alarm(BUZZER__PIN);
 Cover cover(COVER_BUTTON__PIN);
@@ -37,17 +38,29 @@ void setup() {
   // seconds, minutes, hours, day of the week, day of the month, month, year
   // rtc_controller.setDS1302Time(00, 39, 17, 6, 3, 11, 2023);
 
-  cover.onCoverOpen([]() { 
-    indicator.turnLineOff(3);
+  cover.onCoverOpen([]() {
     alarm.deactivateAlarm();
   });
-  cover.onCoverClosed([]() {
-    indicator.turnLineOn(3);
-    alarm.activateAlarm();
+
+  cover.onCoverClose([]() {
+    indicator.turnOff();
   });
 }
 
 void loop() {
+  static unsigned long initializedTime = millis();
+  long now = millis();
+  long ellapsed = now - initializedTime;
+
+  if (ellapsed > TEN_SECONDS) {
+    if (!cover.isCoverOpened()) {
+      alarm.activateAlarm();
+    }
+
+    indicator.turnOn(3);
+    initializedTime = now;
+  }
+
   rtc_controller.updateTime();
   httpClient.listen();
   cover.checkState();

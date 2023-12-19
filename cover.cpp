@@ -1,27 +1,32 @@
 #include "./includes/cover.h"
 #include <Arduino.h>
 
-Cover::Cover(int pin) : buttonPin(pin), buttonState(LOW), lastButtonState(LOW) {
+Cover::Cover(int pin) : buttonPin(pin), coverState(LOW), lastCoverState(LOW) {
   pinMode(buttonPin, INPUT);
 }
 
 void Cover::checkState() {
-    buttonState = digitalRead(buttonPin);
+    coverState = digitalRead(buttonPin);
 
-    if(buttonState != lastButtonState) {
-        if (buttonState == HIGH) {
+    if(coverState != lastCoverState) {
+        if (coverState == HIGH) {
             coverOpenCallback();
         } else {
             coverClosedCallback();
         }
     }
 
-    lastButtonState = buttonState;
+    lastCoverState = coverState;
 }
 
 void Cover::onCoverOpen(void (*callback)(void)) {
     coverOpenCallback = callback;
 }
-void Cover::onCoverClosed(void (*callback)(void)) {
+
+bool Cover::isCoverOpened() {
+    return coverState == HIGH;
+}
+
+void Cover::onCoverClose(void (*callback)(void)) {
     coverClosedCallback = callback;
 }
