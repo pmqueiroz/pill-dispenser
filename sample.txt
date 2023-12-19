@@ -1,0 +1,1 @@
+HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: close\r\n<!DOCTYPE HTML>\r\n<html>\r\n<head>\r\n<meta name='viewport' content='width=device-width, initial-scale=1.0'>\r\n</head>\r\n<body>\r\nToma Funcionando\r\n</body>\r\n</html>

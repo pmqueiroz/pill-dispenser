@@ -6,15 +6,18 @@ void Html::head() {
     "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
     "<style>"
         "* {"
-            "box-sizing: border-box;"
-            "margin: 0;"
-            "padding: 0;"
+          "box-sizing: border-box;"
+          "margin: 0;"
+          "padding: 0;"
+        "}"
+        ".debug {"
+          "border: 1px solid red;"
         "}"
     "</style>"
   "</head>"));
 }
 
-void Html::body() {
+void Html::body(char* debug_string) {
     Serial.println("<body>");
     Serial.println("<p>some body</p>");
     // String buttons = "";
@@ -22,13 +25,16 @@ void Html::body() {
     //     buttons.concat(button(i));
     // }
     // Serial.println(buttons);
+    Serial.println("<p class=\"debug\">");
+    Serial.println(debug_string);
+    Serial.println("</p>");
     Serial.println("</body>");
 }
 
-void Html::write() {
+void Html::write(char* debug_string) {
    Serial.println("<!DOCTYPE HTML>");
    Serial.println("<html>");
    head();
-   body();
+   body(debug_string);
    Serial.println("</html>");
 }

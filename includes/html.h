@@ -6,9 +6,9 @@
 class Html {
 private:
    static void head();
-   static void body();
+   static void body(char* debug_string);
 public:
-   static void write();
+   static void write(char* debug_string);
 };
 
 #endif

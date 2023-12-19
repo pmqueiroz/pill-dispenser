@@ -2,23 +2,29 @@
 #include "./includes/html.h"
 #include "./includes/time.h"
 #include <Arduino.h>
+#define MAX_BUFFER 300
 
 HttpClient::HttpClient(void (*callback)(char *request)): onRequest(callback) {}
 
 void HttpClient::listen() {
-  if (Serial.available()) { 
-    char* request = readRequest();
+  const int serialAvailable = Serial.available();
+  const int bufferSize = serialAvailable < MAX_BUFFER ? serialAvailable : MAX_BUFFER;
+
+  if (serialAvailable) {
+    char* request = readRequest(bufferSize);
 
     if(strstr(request, "favicon") == NULL) {
       onRequest(request);
 
       httpResponse(200);
-      Html::write();
+      Html::write(request);
     } else {
       httpResponse(404);
     }
 
     Serial.write(127);
+
+    free(request);
   }
 }
 
@@ -43,32 +49,23 @@ void HttpClient::httpResponse(int code) {
    }
 }
 
-char* HttpClient::readRequest() {
-  bool currentLineIsBlank = true;
-  char request[50];
+char* HttpClient::readRequest(const int bufferSize) {
+  char* request = (char*)malloc(bufferSize + 1);
   int i = 0;
-  bool firstLine = true;
 
-  while (true){
-    while(!Serial.available());
+  while (Serial.available() > 0) {
+    delay(2);  //delay to allow byte to arrive in input buffer
     char c = Serial.read();
-    
-    if(firstLine){
+
+    if (c == '\n'){ // only the first line is needed
+      i++;
+      break;
+    } else {
       request[i] = c;
       i++;
     }
-    if (c == '\n'){
-        if(currentLineIsBlank){
-            break;
-        }
-
-        currentLineIsBlank = true;
-        firstLine = false;
-    }
-    else if (c != '\r'){
-      currentLineIsBlank = false;
-    }
   }
 
+  request[i] = '\0';
   return request;
 }

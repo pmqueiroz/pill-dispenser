@@ -8,8 +8,7 @@ class HttpClient {
 private:
   void (*onRequest)(char *request);
   void httpResponse(int code);
-  char* readRequest();
-  // void processRequest(char *request);
+  char* readRequest(const int bufferSize);
 public:
   HttpClient(void (*onRequest)(char *request));
   void listen();

@@ -18,13 +18,15 @@ int INDICATOR_LEDS__MAP[LED_LINE__COUNT] = {A1, A2, A3, A4};
 Alarm alarm(BUZZER__PIN);
 Cover cover(COVER_BUTTON__PIN);
 Indicator indicator(INDICATOR_LEDS__MAP, LED_LINE__COUNT);
-HttpClient httpClient([](char *request) { 
-  String action = getStringBetween(request, '?', '=');
-  String value = getStringBetween(request, '=', ' ');
+HttpClient httpClient([](char *request) {
+  
+  // String action = getStringBetween(request, '?', '=');
+  // String value = getStringBetween(request, '=', ' ');
 
-  if (action == "set-alarm") {
+
+  // if (action == "set-alarm") {
     // Time alarmTime = parseTimeString(action);
-  }
+  // }
 });
 virtuabotixRTC rtc_controller(RTC_CLK__PIN, RTC_DAT__PIN, RTC_RST__PIN);
 
