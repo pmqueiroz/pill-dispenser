@@ -3,12 +3,10 @@
 #include "./includes/indicator.h"
 #include "./includes/indicator-looper.h"
 #include "./includes/helpers.h"
-#include "./includes/time.h"
 #include "virtuabotixRTC.h"
 
 #define BUZZER__PIN 2
 #define COVER_BUTTON__PIN 9
-#define LED_LINE__COUNT 4
 #define RTC_CLK__PIN 10
 #define RTC_DAT__PIN 11
 #define RTC_RST__PIN 12
@@ -17,7 +15,6 @@
 #define SHIFT_REG_CLOCK__PIN 5
 #define SHIFT_REG__AMOUNT 3
 #define THIRTY_SECONDS 30 * 1000
-int number;
 
 Alarm alarm(BUZZER__PIN);
 Cover cover(COVER_BUTTON__PIN);
@@ -47,7 +44,6 @@ void setup() {
   startupFeedback();
 }
 
-int lastMinimumLed = 1;
 void loop() {
   static unsigned long initializedTime = millis();
   long now = millis();
