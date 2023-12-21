@@ -27,16 +27,12 @@ virtuabotixRTC rtc_controller(RTC_CLK__PIN, RTC_DAT__PIN, RTC_RST__PIN);
 
 void startupFeedback() {
   alarm.activateAlarm();
-  delay(200);
-  alarm.deactivateAlarm();
-  delay(300);
-  alarm.activateAlarm();
-  delay(200);
-  alarm.deactivateAlarm();
+  timeout([]() { alarm.deactivateAlarm(); }, 200);
+  timeout([]() { alarm.activateAlarm(); }, 300);
+  timeout([]() { alarm.deactivateAlarm(); }, 200);
 }
 
 void setup() {
-  Serial.begin(115200);
   // seconds, minutes, hours, day of the week, day of the month, month, year
   // rtc_controller.setDS1302Time(00, 39, 17, 6, 3, 11, 2023);
 
@@ -63,10 +59,6 @@ void loop() {
     if (!cover.isCoverOpened()) {
       alarm.activateAlarm();
     }
-
-    Serial.print("Turning the led ");
-    Serial.print(ledToTurnOn);
-    Serial.println(" on");
 
     indicator.turnOn(ledToTurnOn);
     initializedTime = now;

@@ -12,11 +12,16 @@ String getStringBetween(char* input, char start, char end) {
   c++;
 
   while(*c != end && *c!='\0') {
-      str += *c;
-      c++;
+    str += *c;
+    c++;
   }
 
   return str;
+}
+
+void timeout(void (*func)(), int timeout) {
+  delay(timeout);
+  func();
 }
 
 #endif
