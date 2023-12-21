@@ -1,7 +1,7 @@
 #include "./includes/alarm.h"
 #include "./includes/cover.h"
 #include "./includes/indicator.h"
-#include "./includes/random-indicator.h"
+#include "./includes/indicator-looper.h"
 #include "./includes/helpers.h"
 #include "./includes/time.h"
 #include "virtuabotixRTC.h"
@@ -22,8 +22,18 @@ int number;
 Alarm alarm(BUZZER__PIN);
 Cover cover(COVER_BUTTON__PIN);
 Indicator indicator(SHIFT_REG_LATCH__PIN, SHIFT_REG_DATA__PIN, SHIFT_REG_CLOCK__PIN, SHIFT_REG__AMOUNT);
-RandomIndicator randomIndicator(SHIFT_REG__AMOUNT * 8);
+IndicatorLooper indicatorLooper(6);
 virtuabotixRTC rtc_controller(RTC_CLK__PIN, RTC_DAT__PIN, RTC_RST__PIN);
+
+void startupFeedback() {
+  alarm.activateAlarm();
+  delay(200);
+  alarm.deactivateAlarm();
+  delay(300);
+  alarm.activateAlarm();
+  delay(200);
+  alarm.deactivateAlarm();
+}
 
 void setup() {
   Serial.begin(115200);
@@ -37,6 +47,8 @@ void setup() {
   cover.onCoverClose([]() {
     indicator.turnOff();
   });
+
+  startupFeedback();
 }
 
 int lastMinimumLed = 1;
@@ -46,7 +58,7 @@ void loop() {
   long ellapsed = now - initializedTime;
 
   if (ellapsed > THIRTY_SECONDS) {
-    int ledToTurnOn = randomIndicator.getRandomIndicator();
+    int ledToTurnOn = indicatorLooper.getIndicator();
 
     if (!cover.isCoverOpened()) {
       alarm.activateAlarm();
